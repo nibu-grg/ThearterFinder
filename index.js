@@ -36,6 +36,41 @@ app.get('/theaters', (request, response) => {
 
 });
 
+app.get('/search', (req, res, next) => {
+    const connection = mysql.createConnection(mysqlConnection);
+    const searchTerm = req.query.theatername;
+    if (!searchTerm) {
+        return res.status(400)
+            .json(
+                {
+                    error: 'Theater name is required'
+                }
+            );
+    }
+ 
+    const query = `
+    SELECT * FROM Theater
+    WHERE Theater_Name LIKE ?
+  `;
+ 
+    const searchValue = `%${searchTerm}%`;
+ 
+    connection.query(query, [searchValue, searchValue],
+        (err, results) => {
+            if (err) {
+                console
+                    .error('Error executing search query:', err);
+                return res.status(500)
+                    .json(
+                        {
+                            error: 'Internal server error'
+                        });
+            }
+ 
+            res.json(results);
+        });
+});
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
