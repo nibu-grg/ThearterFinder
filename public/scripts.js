@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <button class="delete-btn" data-id="${row.Theater_ID}">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
+            <button class="edit-btn" data-id="${row.Theater_ID}" data-name="${row.Theater_Name}" data-location="${row.Location}" data-city="${row.City}" data-eircode="${row.EirCode}" data-mobile="${row.Mobile}" data-email="${row.Email}">
+              <i class="fa fa-edit" aria-hidden="true"></i>
+            </button>
           </td>
         `;
         tableBody.appendChild(tr);
@@ -29,9 +32,26 @@ document.addEventListener("DOMContentLoaded", function () {
           deleteTheater(theaterId);  
         }
       });
+
+      document.querySelector('#data-table').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('edit-btn')) {
+          const theaterData = {
+            Theater_ID: e.target.getAttribute('data-id'),
+            Theater_Name: e.target.getAttribute('data-name'),
+            Location: e.target.getAttribute('data-location'),
+            City: e.target.getAttribute('data-city'),
+            EirCode: e.target.getAttribute('data-eircode'),
+            Mobile: e.target.getAttribute('data-mobile'),
+            Email: e.target.getAttribute('data-email')
+          };
+          sessionStorage.setItem('theaterData', JSON.stringify(theaterData));
+          window.location.href = 'add.html';
+        }
+      });
     })
     .catch(error => console.error('Error fetching theaters:', error));
 });
+
 
 
 function search() {
