@@ -19,7 +19,7 @@ input[type=text],textarea
   border-radius: 4px;
   box-sizing: border-box;
 }
-button {
+#search, #submit{
   width: 100%;
   background-color: #4CAF50;
   color: white;
@@ -34,7 +34,7 @@ button {
   width: 50%;
   margin: auto;
 }
-#search
+#search1
 {
   display:flex;
   width: 50%;
@@ -52,4 +52,51 @@ table, th, td {
 th, td {
   padding: 8px;
   text-align: left;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+
+.navbar .brand {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.navbar .links {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar .links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar .links a {
+    width: 100%;
+    text-align: left;
+  }
 }
