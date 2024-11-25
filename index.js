@@ -124,20 +124,16 @@ app.post("/addTheater", (req, res) => {
 
 
 app.delete("/deleteTheater/:id", (req, res) => {
-    try
-    {
-        const connection = mysql.createConnection(mysqlConnection);
+    try {
         const theaterId = req.params.id;
 
         if (!theaterId) {
             return res.status(400).json({ message: "Theater ID is required" });
         }
 
-        const query = `
-            DELETE FROM Theater WHERE Theater_ID = ?
-        `;
+        const query = `DELETE FROM Theater WHERE Theater_ID = ?`;
 
-        connection.query(query, [theaterId], (err, result) => {
+        pool.query(query, [theaterId], (err, result) => {
             if (err) {
                 console.error("Error executing delete query:", err);
                 return res.status(500).json({ error: "Internal server error" });
@@ -149,9 +145,7 @@ app.delete("/deleteTheater/:id", (req, res) => {
 
             res.status(200).json({ message: "Theater deleted successfully" });
         });
-    }
-    catch(error)
-    {
+    } catch (error) {
         res.status(500).json({ message: "Unexpected server error", error: error.message });
     }
 });

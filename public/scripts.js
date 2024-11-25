@@ -14,8 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>${row.EirCode}</td>
           <td>${row.Mobile}</td>
           <td>${row.Email}</td>
+          <td>
+            <button class="delete-btn" data-id="${row.Theater_ID}">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </td>
         `;
         tableBody.appendChild(tr);
+      });
+
+      document.querySelector('#data-table').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('delete-btn')) {
+          const theaterId = e.target.getAttribute('data-id'); 
+          deleteTheater(theaterId);  
+        }
       });
     })
     .catch(error => console.error('Error fetching theaters:', error));
@@ -50,42 +62,25 @@ function search() {
   .catch(error => console.error('Error fetching search results:', error));
 }
 
+function deleteTheater(theaterId) {
+  if (!confirm('Are you sure you want to delete this theater?')) return;
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   document.getElementById("Theateradd").addEventListener("submit", function (event) {
-//     event.preventDefault(); 
-//     const formData = {
-//       Theater_Name: document.getElementById("theater_name").value,
-//       Location: document.getElementById("location").value,
-//       City: document.getElementById("city").value,
-//       EirCode: document.getElementById("eircode").value,
-//       Mobile: document.getElementById("mobile").value,
-//       Email: document.getElementById("email").value
-//     };
-
-//     fetch('/addTheater', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(formData)
-//     })
-//       .then(response => {
-//         if (!response.ok) {
-//           throw new Error('Failed to save data');
-//         }
-//         return response.json();
-//       })
-//       .then(data => {
-//         document.getElementById("message").innerText = "Theater added successfully!";
-//         document.getElementById("Theateradd").reset(); 
-//       })
-//       .catch(error => {
-//         console.error('Error:', error);
-//         document.getElementById("message").innerText = "Error adding theater.";
-//       });
-//   });
-// });
-
-
- 
+  fetch(`/deleteTheater/${theaterId}`, {
+    method: 'DELETE',
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to delete theater');
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert(data.message || 'Theater deleted successfully');
+      const row = document.getElementById(`row-${theaterId}`);
+      if (row) row.remove();
+    })
+    .catch(error => {
+      console.error('Error deleting theater:', error);
+      alert('Error deleting theater.');
+    });
+}
