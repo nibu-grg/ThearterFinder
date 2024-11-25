@@ -74,6 +74,33 @@ app.get('/search', (req, res) => {
     });
 });
 
+
+app.post("/addTheater", (req, res) => {
+    const connection = mysql.createConnection(mysqlConnection);
+    const { Theater_Name, Location, City, EirCode, Mobile, Email } = req.body;
+
+    if (!Theater_Name || !Location || !City || !EirCode || !Mobile || !Email) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const query = `
+        INSERT INTO Theater (Theater_Name, Location, City, EirCode, Mobile, Email)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [Theater_Name, Location, City, EirCode, Mobile, Email];
+
+    connection.query(query, values, (err, result) => {
+        if (err) {
+            console.error("Error executing insert query:", err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+
+        console.log("Insert successful, ID:", result.insertId);
+        return res.status(201).json({ message: "Theater added successfully", id: result.insertId });
+    });
+});
+
   
   
 
