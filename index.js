@@ -128,6 +128,36 @@ app.delete("/deleteTheater/:id", (req, res) => {
     });
 });
 
+app.put("/updateTheater/:id", (req, res) => {
+    const connection = mysql.createConnection(mysqlConnection);
+    const theaterId = req.params.id;
+    const { Theater_Name, Location, City, EirCode, Mobile, Email } = req.body;
+
+    if (!Theater_Name || !Location || !City || !EirCode || !Mobile || !Email) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const query = `
+        UPDATE Theater
+        SET Theater_Name = ?, Location = ?, City = ?, EirCode = ?, Mobile = ?, Email = ?
+        WHERE Theater_ID = ?
+    `;
+    const values = [Theater_Name, Location, City, EirCode, Mobile, Email, theaterId];
+
+    connection.query(query, values, (err, result) => {
+        if (err) {
+            console.error("Error updating theater:", err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Theater not found" });
+        }
+
+        res.status(200).json({ message: "Theater updated successfully" });
+    });
+});
+
 
   
   
