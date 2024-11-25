@@ -34,3 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
   
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const theaterData = JSON.parse(sessionStorage.getItem('theaterData'));
+  
+    if (theaterData) {
+      document.querySelector('#theater_name').value = theaterData.Theater_Name;
+      document.querySelector('#location').value = theaterData.Location;
+      document.querySelector('#eircode').value = theaterData.EirCode;
+      document.querySelector('#city').value = theaterData.City;
+      document.querySelector('#email').value = theaterData.Email;
+      document.querySelector('#mobile').value = theaterData.Mobile;
+    }
+  });
