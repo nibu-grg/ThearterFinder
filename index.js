@@ -101,6 +101,34 @@ app.post("/addTheater", (req, res) => {
     });
 });
 
+
+app.delete("/deleteTheater/:id", (req, res) => {
+    const connection = mysql.createConnection(mysqlConnection);
+    const theaterId = req.params.id;
+
+    if (!theaterId) {
+        return res.status(400).json({ message: "Theater ID is required" });
+    }
+
+    const query = `
+        DELETE FROM Theater WHERE Theater_ID = ?
+    `;
+
+    connection.query(query, [theaterId], (err, result) => {
+        if (err) {
+            console.error("Error executing delete query:", err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Theater not found" });
+        }
+
+        res.status(200).json({ message: "Theater deleted successfully" });
+    });
+});
+
+
   
   
 
