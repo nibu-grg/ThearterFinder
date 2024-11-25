@@ -1,0 +1,51 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Theater Information Form</title>
+        <link rel="stylesheet" href="/styles.css">
+        
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="brand" style="color: white;">Theater Tracker</div>
+            <div class="links">
+              <a href="index.html">Home</a>
+              <a href="#">Theaters</a>
+              <a href="add.html">Add Theater</a>
+              <a href="#">Contact</a>
+            </div>
+          </nav>
+        <div class="theater-info-form">
+            <h1>Add Tracker</h1>
+            <form method="post" id="Theateradd">
+                <div id="add">
+                    <label for="theater-name">Theater Name:</label>
+                    <input type="text" id="theater_name" name="theater-name" placeholder="Enter theater name" required>
+                    
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" placeholder="Enter theater location" required>
+                    
+                    <label for="eircode">Eircode:</label>
+                    <input type="text" id="eircode" name="eircode" placeholder="Enter eircode" required>
+
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" placeholder="Enter city" required>
+
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" placeholder="Enter email" required>
+
+                    <label for="mob">Mobile:</label>
+                    <input type="text" id="mobile" name="mob" placeholder="Enter mobile" required>
+                    
+                    <!-- <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Enter theater description" required></textarea> -->
+                    
+                    <button type="submit">Submit Information</button>
+                </div>
+            </form>
+        </div>
+
+        <script src="add.js"></script>
+    </body>
+</html>
