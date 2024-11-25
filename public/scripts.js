@@ -75,6 +75,14 @@ function search() {
         <td>${row.EirCode}</td>
         <td>${row.Mobile}</td>
         <td>${row.Email}</td>
+        <td>
+            <button class="delete-btn" data-id="${row.Theater_ID}">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <button class="edit-btn" data-id="${row.Theater_ID}" data-name="${row.Theater_Name}" data-location="${row.Location}" data-city="${row.City}" data-eircode="${row.EirCode}" data-mobile="${row.Mobile}" data-email="${row.Email}">
+              <i class="fa fa-edit" aria-hidden="true"></i>
+            </button>
+          </td>
       `;
       tableBody.appendChild(tr);
     });
