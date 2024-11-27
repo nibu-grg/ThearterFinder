@@ -126,20 +126,23 @@ app.post("/addTheater", (req, res) => {
 app.delete("/deleteTheater/:id", (req, res) => {
     try {
         const theaterId = req.params.id;
+        const connection = mysql.createConnection(mysqlConnection);
 
         if (!theaterId) {
             return res.status(400).json({ message: "Theater ID is required" });
         }
 
-        const query = `DELETE FROM Theater WHERE Theater_ID = ?`;
+        const query = `DELETE FROM Theater WHERE Theater_Id = ?`;
 
-        pool.query(query, [theaterId], (err, result) => {
+        connection.query(query, [theaterId], (err, results) => {
+            connection.end();
+
             if (err) {
-                console.error("Error executing delete query:", err);
-                return res.status(500).json({ error: "Internal server error" });
+                console.error("Error executing query:", err);
+                return res.status(500).json({ error: "Query execution error" });
             }
 
-            if (result.affectedRows === 0) {
+            if (results.affectedRows === 0) {
                 return res.status(404).json({ message: "Theater not found" });
             }
 
@@ -189,7 +192,7 @@ app.put("/updateTheater/:id", (req, res) => {
   
   
 
-const PORT = 3000;
+const PORT = process.env.PORT || 5500;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
