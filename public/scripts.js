@@ -1,3 +1,5 @@
+// const { json } = require("body-parser");
+
 document.addEventListener("DOMContentLoaded", function () {
   TheaterList()
 });
@@ -20,10 +22,10 @@ function TheaterList() {
           <td>${row.Mobile}</td>
           <td>${row.Email}</td>
           <td>
-            <button class="delete-btn" data-id="${row.Theater_Id}">
+            <button class="delete-btn" onclick="deleteTheater(${row.Theater_Id})">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
-            <button class="edit-btn" data-id="${row.Theater_Id}" data-name="${row.Theater_Name}" data-location="${row.Location}" data-city="${row.City}" data-eircode="${row.EirCode}" data-mobile="${row.Mobile}" data-email="${row.Email}">
+            <button class="edit-btn" onclick="updateTheater(${row.Theater_Id})">
               <i class="fa fa-edit" aria-hidden="true"></i>
             </button>
           </td>
@@ -57,9 +59,8 @@ function TheaterList() {
     .catch(error => console.error('Error fetching theaters:', error));
 };
 
-
-
 function search() {
+  
   const eircode = document.getElementById("eircode").value.trim();
   if (!eircode) {
     alert('Please enter an EirCode to search.');
@@ -120,3 +121,11 @@ function deleteTheater(theaterId) {
     });
     
 }
+
+function updateTheater(theaterid)
+{
+  sessionStorage.setItem('theaterid', theaterid);
+  window.location.href = "update.html";
+}
+
+

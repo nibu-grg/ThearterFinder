@@ -9,6 +9,7 @@ app.use(express.static('public'));
 
 
 app.use(bodyParser.json());
+app.use(express.json());
 
 app.get("/", (request, response) => {
     response.json({
@@ -123,13 +124,18 @@ app.post("/addTheater", (req, res) => {
 });
 
 
-app.delete("/deleteTheater/:id", (req, res) => {
-    try {
-        const theaterId = req.params.id;
-        const connection = mysql.createConnection(mysqlConnection);
+app.delete("/deleteTheater/:Theater_Id", (req, res) => {
+    const theaterId = req.params.Theater_Id; 
+    console.log("Received Theater_Id:", theaterId);
+    if (!theaterId) {
+        return res.status(400).json({ message: "Theater ID is required" });
+    }
 
-        if (!theaterId) {
-            return res.status(400).json({ message: "Theater ID is required" });
+    const connection = mysql.createConnection(mysqlConnection);
+    connection.connect(err => {
+        if (err) {
+            console.error("Error connecting to the database:", err);
+            return res.status(500).json({ error: "Database connection error" });
         }
 
         const query = `DELETE FROM Theater WHERE Theater_Id = ?`;
@@ -148,31 +154,75 @@ app.delete("/deleteTheater/:id", (req, res) => {
 
             res.status(200).json({ message: "Theater deleted successfully" });
         });
-    } catch (error) {
-        res.status(500).json({ message: "Unexpected server error", error: error.message });
-    }
+    });
 });
 
-app.put("/updateTheater/:id", (req, res) => {
-    try {
-        const connection = mysql.createConnection(mysqlConnection);
-        const theaterId = req.params.id;
-        const { Theater_Name, Location, City, EirCode, Mobile, Email } = req.body;
 
-        if (!Theater_Name || !Location || !City || !EirCode || !Mobile || !Email) {
-            return res.status(400).json({ message: "All fields are required" });
+app.get("/theaterInfo", (req, res) => {
+    const id = req.query.Theater_Id;
+    console.log("Received Theater_Id:", id);
+    
+
+    if (!id) {
+        return res.status(400).json({ error: 'Theater_Id is required' });
+    }
+
+    const connection = mysql.createConnection(mysqlConnection);
+    
+    const query = `
+        SELECT * FROM Theater
+        WHERE Theater_Id = ?
+    `;
+
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err.message);
+            connection.end();
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        if (results.length > 0) {
+            connection.end();
+            return res.status(200).json(results);
+        } else {
+            connection.end();
+            return res.status(404).json({ message: 'No theaters found with this Theater_Id' });
+        }
+
+    });
+    console.log("Finished feching");
+});
+
+app.put("/updateTheater/:Theater_Id", (req, res) => {
+    const Theater_Id = req.params.Theater_Id;
+    console.log("Received Theater_Id:", Theater_Id);
+
+    const { Theater_Name, Location, City, EirCode, Mobile, Email } = req.body;
+    if (!Theater_Name || !Location || !City || !EirCode || !Mobile || !Email) {
+        return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const connection = mysql.createConnection(mysqlConnection);
+    connection.connect(err => {
+        if (err) {
+            console.error("Error connecting to database:", err);
+            return res.status(500).json({ error: "Database connection error" });
         }
 
         const query = `
             UPDATE Theater
             SET Theater_Name = ?, Location = ?, City = ?, EirCode = ?, Mobile = ?, Email = ?
-            WHERE Theater_ID = ?
+            WHERE Theater_Id = ?
         `;
-        const values = [Theater_Name, Location, City, EirCode, Mobile, Email, theaterId];
+        const values = [Theater_Name, Location, City, EirCode, Mobile, Email, Theater_Id];
+
+        console.log("Update Query Values:", values);
 
         connection.query(query, values, (err, result) => {
+            connection.end(); 
+
             if (err) {
-                console.error("Error updating theater:", err);
+                console.error("Error executing update query:", err);
                 return res.status(500).json({ error: "Internal server error" });
             }
 
@@ -180,19 +230,14 @@ app.put("/updateTheater/:id", (req, res) => {
                 return res.status(404).json({ message: "Theater not found" });
             }
 
-            res.status(200).json({ message: "Theater updated successfully" });
+            console.log("Update successful, affected rows:", result.affectedRows);
+            return res.status(200).json({ message: "Theater updated successfully" });
         });
-    }
-    catch(error){
-        res.status(500).json({ message: "Unexpected server error", error: error.message });
-    }
+    });
 });
-
-
-  
   
 
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
