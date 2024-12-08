@@ -17,6 +17,29 @@ describe('Task API', () => {
                 });
         });
     });
+
+    describe('POST /addTheater', () => {
+        it('should add a new theater', (done) => {
+            const newTheater = {
+                Theater_Name: 'New Theater',
+                Location: 'Some Location',
+                City: 'Some City',
+                EirCode: '12345',
+                Mobile: 1234567890,
+                Email: 'newtheater@example.com'
+            };
+
+            chai.request(app)                   
+                .post('/addTheater')              
+                .send(newTheater)                 
+                .end((err, res) => {
+                    res.should.have.status(201);             
+                    res.body.should.have.property('message').eql('Theater added successfully');
+                    done();
+                });
+        });
+    });
+
 });
 
 
