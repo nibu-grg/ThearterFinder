@@ -61,6 +61,17 @@ describe('Task API', () => {
         });
     });
     
+    describe('DELETE /deleteTheater/:Theater_Id', () => {
+        it('should delete an existing theater by ID', (done) => {
+            chai.request(app)
+                .delete(`/deleteTheater/${theaterId}`)
+                .end((err, res) => {
+                    res.should.have.status(200); 
+                    res.body.should.have.property('message').eql('Theater deleted successfully'); 
+                    done();
+                });
+        });
+    });
 
 });
 
