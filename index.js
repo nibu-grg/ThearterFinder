@@ -1,35 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-const path = require('path');
-
+const { mysqlConnection } = require('./dbconfig.js');
 
 const app = express();
 app.use(express.static('public'));
-
-
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.get("/", (request, response) => {
-    response.json({
-        info: 'Hello world!'
-    });
-});
 
 
-const mysqlConnection = {
-    host: 'localhost',        
-    user: 'root',    
-    password: 'BusinessSchool@123',
-    database: 'InformationCA1', 
-    port: 3306    
-};
 
 
 app.get('/theaters', (request, response) => {
-    try
-    {
+    try {
         const connection = mysql.createConnection(mysqlConnection);
         const query = 'SELECT * FROM Theater';
         connection.connect((err) => {
@@ -47,16 +31,13 @@ app.get('/theaters', (request, response) => {
                 response.status(200).json(results);
             });
         });
-    }
-    catch(error)
-    {
-        res.status(500).json({ message: "Unexpected server error", error: error.message });
+    } catch (error) {
+        response.status(500).json({ message: "Unexpected server error", error: error.message });
     }
 });
 
 app.get('/search', (req, res) => {
-    try
-    {
+    try {
         const connection = mysql.createConnection(mysqlConnection);
         const searchTerm = req.query.EirCode;
 
@@ -82,17 +63,13 @@ app.get('/search', (req, res) => {
                 return res.status(404).json({ message: 'No theaters found for this Eircode' });
             }
         });
-    }
-    catch(error)
-    {
+    } catch (error) {
         res.status(500).json({ message: "Unexpected server error", error: error.message });
     }
 });
 
-
 app.post("/addTheater", (req, res) => {
-    try
-    {
+    try {
         const connection = mysql.createConnection(mysqlConnection);
         const { Theater_Name, Location, City, EirCode, Mobile, Email } = req.body;
 
@@ -116,9 +93,7 @@ app.post("/addTheater", (req, res) => {
             console.log("Insert successful, ID:", result.insertId);
             return res.status(201).json({ message: "Theater added successfully", id: result.insertId });
         });
-    }
-    catch(error)
-    {
+    } catch (error) {
         res.status(500).json({ message: "Unexpected server error", error: error.message });
     }
 });
@@ -162,7 +137,6 @@ app.get("/theaterInfo", (req, res) => {
     const id = req.query.Theater_Id;
     console.log("Received Theater_Id:", id);
     
-
     if (!id) {
         return res.status(400).json({ error: 'Theater_Id is required' });
     }
@@ -190,7 +164,7 @@ app.get("/theaterInfo", (req, res) => {
         }
 
     });
-    console.log("Finished feching");
+    console.log("Finished fetching");
 });
 
 app.put("/updateTheater/:Theater_Id", (req, res) => {
@@ -235,10 +209,13 @@ app.put("/updateTheater/:Theater_Id", (req, res) => {
         });
     });
 });
-  
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
 
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
