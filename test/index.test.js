@@ -4,7 +4,7 @@ const app = require("../index.js");
 
 chai.should();
 chai.use(chaiHttp);
-const theaterId = 38;
+const theaterId = 43;
 describe('Task API', () => {
     describe("GET /theaters", () => {
         it("Should perform GET", (done) => {
@@ -68,6 +68,22 @@ describe('Task API', () => {
                 .end((err, res) => {
                     res.should.have.status(200); 
                     res.body.should.have.property('message').eql('Theater deleted successfully'); 
+                    done();
+                });
+        });
+    });
+
+    describe('GET /searchTheater', () => {
+        it('should search theaters by EirCode', (done) => {
+            const searchQuery = { EirCode: 'D01AX23' }; 
+            chai.request(app)
+                .get('/search')
+                .query(searchQuery) 
+                .end((err, res) => {
+                    res.should.have.status(200); 
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.above(0);
+                    res.body[0].EirCode.should.eql('D01AX23');
                     done();
                 });
         });
