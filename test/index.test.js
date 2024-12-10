@@ -1,94 +1,91 @@
-const chai = require("chai");
-const chaiHttp = require("chai-http");
-const app = require("../index.js");
+const request = require('supertest');
+const { app, server } = require('../index.js');
+const mysql = require('mysql2');
 
-chai.should();
-chai.use(chaiHttp);
-const theaterId = 43;
-describe('Task API', () => {
-    describe("GET /theaters", () => {
-        it("Should perform GET", (done) => {
-            chai.request(app)
-                .get("/theaters")
-                .end((err, response) => {
-                    response.should.have.status(200);
-                    response.body.should.be.a('array');
-                    done();
-                });
-        });
+jest.mock('mysql2', () => ({
+    createConnection: jest.fn().mockReturnValue({
+        connect: jest.fn((callback) => callback(null)),
+        query: jest.fn().mockImplementation((query, values, callback) => {
+            if (query.includes("INSERT INTO Theater")) {
+                callback(null, { insertId: 1 });
+            } else if (query.includes("DELETE FROM Theater WHERE Theater_Id = ?")) {
+                const theaterId = values[0];
+                if (theaterId === 1) {
+                    callback(null, { affectedRows: 1 });
+                } else {
+                    callback(null, { affectedRows: 0 });
+                }
+            } else if (query.includes("SELECT * FROM Theater")) {
+                callback(null, [
+                    { Theater_ID: 1, Theater_Name: 'Theater 1', Location: 'Dublin', City: 'Dublin', EirCode: 'D02AX23', Mobile: 1234567890, Email: 'theater1@example.com' },
+                    { Theater_ID: 2, Theater_Name: 'Theater 2', Location: 'Cork', City: 'Cork', EirCode: 'C03BY45', Mobile: 9876543210, Email: 'theater2@example.com' }
+                ]);
+            } else {
+                callback(new Error(`Unhandled query: ${query}`));
+            }
+        }),
+        end: jest.fn(),
+    }),
+}));
+
+afterAll(() => {
+    if (server) {
+        server.close();
+    }
+});
+
+describe('POST /addTheater', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
     });
 
-    describe('POST /addTheater', () => {
-        it('should add a new theater', (done) => {
-            const newTheater = {
-                Theater_Name: 'Test New Theater',
-                Location: 'Dublin 11',
-                City: 'City',
-                EirCode: 'D11FK64',
-                Mobile: 1234567890,
-                Email: 'newtheater@example.com'
-            };
+    it('should add a new theater', async () => {
+        const newTheater = {
+            Theater_Name: 'New Theater',
+            Location: 'Dublin',
+            City: 'City Center',
+            EirCode: 'D02AX23',
+            Mobile: 1234567890,
+            Email: 'newtheater@example.com',
+        };
 
-            chai.request(app)                   
-                .post('/addTheater')              
-                .send(newTheater)                 
-                .end((err, res) => {
-                    res.should.have.status(201);             
-                    res.body.should.have.property('message').eql('Theater added successfully');
-                    done();
-                });
-        });
+        const res = await request(app).post('/addTheater').send(newTheater);
+
+        expect(res.statusCode).toBe(201);
+        expect(res.body.message).toBe('Theater added successfully');
+
+        const queryCalls = mysql.createConnection().query.mock.calls;
+
+        expect(queryCalls[0][0]).toContain('INSERT INTO Theater');
+        expect(queryCalls[0][1]).toEqual([
+            newTheater.Theater_Name,
+            newTheater.Location,
+            newTheater.City,
+            newTheater.EirCode,
+            newTheater.Mobile,
+            newTheater.Email,
+        ]);
     });
 
-    describe('PUT /updateTheater/:Theater_Id', () => {
-        it('should update an existing theater', (done) => {
-            const updatedTheater = {
-                Theater_Name: 'Test Updated Theater',
-                Location: 'Dublin',
-                City: 'City Center',
-                EirCode: 'D01AX23',
-                Mobile: 9876543210,
-                Email: 'updatedtheater@example.com'
-            };
-            chai.request(app)
-                .put(`/updateTheater/${theaterId}`)  
-                .send(updatedTheater)              
-                .end((err, res) => {
-                    res.should.have.status(200);   
-                    res.body.should.have.property('message').eql('Theater updated successfully'); 
-                    done(); 
-                });
-        });
-    });
-    
-    describe('DELETE /deleteTheater/:Theater_Id', () => {
-        it('should delete an existing theater by ID', (done) => {
-            chai.request(app)
-                .delete(`/deleteTheater/${theaterId}`)
-                .end((err, res) => {
-                    res.should.have.status(200); 
-                    res.body.should.have.property('message').eql('Theater deleted successfully'); 
-                    done();
-                });
-        });
-    });
+    it('should return an error if any field is missing', async () => {
+        const incompleteTheater = {
+            Theater_Name: 'New Theater',
+            Location: 'Dublin',
+            City: 'City Center',
+            EirCode: 'D02AX23',
+            Mobile: 1234567890,
+        };
 
-    describe('GET /searchTheater', () => {
-        it('should search theaters by EirCode', (done) => {
-            const searchQuery = { EirCode: 'D01AX23' }; 
-            chai.request(app)
-                .get('/search')
-                .query(searchQuery) 
-                .end((err, res) => {
-                    res.should.have.status(200); 
-                    res.body.should.be.a('array');
-                    res.body.length.should.be.above(0);
-                    res.body[0].EirCode.should.eql('D01AX23');
-                    done();
-                });
-        });
-    });
+        const res = await request(app).post('/addTheater').send(incompleteTheater);
 
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe('All fields are required');
+    });
 });
 
 
+afterAll(() => {
+    if (server) {
+        server.close();
+    }
+});

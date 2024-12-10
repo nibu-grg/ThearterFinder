@@ -209,13 +209,13 @@ app.put("/updateTheater/:Theater_Id", (req, res) => {
         });
     });
 });
-
 const PORT = process.env.PORT || 3000;
-
+let server;
 if (require.main === module) {
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
     });
 }
 
-module.exports = app;
+// Export app and server for testing purposes
+module.exports = { app, server };
