@@ -12,8 +12,9 @@ Theater tracker is a web based application. This system allows andministrator to
 ### Admin Functionalities ###
 -**Create:** Using this admin can add new theater by providing basic details including name, location, city, eircode, contact number, and email. Each theater is assigned with a unique id while creation.
   -***Workflow***
-      -****Front End:**** -*****The admin can add theater data with the form.******
-                          -*****When the form is submitted, JavaScript handleAddForm() function is called.*****
+      -****Front End:**** 
+      - The admin can add theater data with the form.
+      - When the form is submitted, JavaScript handleAddForm() function is called.
       
 
 -**Read:** It will help to get a diverse list of all theaters along with their details
