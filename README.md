@@ -65,6 +65,13 @@ This system uses modern technologies to ensure the web application is smooth and
 ### Database ###
 -**MySQL:** It is an open source relational database management system(RDBMS) that's used to store and manage data. 
 
+### Testing ###
+-**Jest:** It is a testing JavaScript framework, here its used for unit testing and integration testing.
+-**Supertest:** Its an HTTP assertion library, its used for testing Express routes.
+
+### Hosting ###
+-**AWS:** The website was hosted using AWS services. A MySQL database was created on AWS RDS and connected through SQL Workbench for data management. For application hosting, AWS App Runner was used to deploy the app. However, due to the cost associated with App Runner, the service was stopped and deleted to reduce expenses.
+
 ## Conclusion ##
 
 The Theater Management System makes data handling easier and quicker. The system simplifies data management procedures for the administrator by embedding all the major administrative features: create, read, update, and remove theatrical metadata. With an outstanding tech stack-HTML, CSS, JavaScript, MySQL, and Node.js, this application assures scalability, reliability, and ease for end-users.
