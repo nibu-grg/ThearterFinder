@@ -44,7 +44,9 @@ The conclusion is that the Theater Management System is a good starting point fo
 
 ## References ##
 -**CRUD REST API with Node.js, Express.js, and PostgreSQL - DEV Community: https://dev.to/justahmed99/crud-rest-api-with-nodejs-expressjs-and-postgresql-57b2[Accessed 09 November 2024]**
+
 -**Testing NodeJs/Express API with Jest and Supertest - DEV Community: https://dev.to/nedsoft/testing-nodejs-express-api-with-jest-and-supertest-1km6 [Accessed 23 November 2024]**
+
 -**Troubleshooting · Jest: https://jestjs.io/docs/troubleshooting [Accessed 26 November 2024]**
 
 
