@@ -9,9 +9,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 
-
-
-
 app.get('/theaters', (request, response) => {
     try {
         const connection = mysql.createConnection(mysqlConnection);
