@@ -42,6 +42,13 @@ Theater tracker is a web based application. This system allows andministrator to
   - The server process the DELETE request at /deleteTheater/:Theater_Id endpoint.
   - Then the record removed from the database and then the server send a confirmation response.
 
+-**Search:** Admin can able to locate list of theaters in a particular location with the help of eircode
+
+  - If admin enter the eircode and click search
+  - The search() function is called, then which triggers GET request to fetch theater details based on the eircode.
+  - The server process the GET request at /search?EirCode=  endpoint.
+  - Then it will return the details of all theaters within that specific eircode.
+
 ## Technologies Used ##
 This system uses modern technologies to ensure the web application is smooth and effective. The main technolofies used in this project are:
 
