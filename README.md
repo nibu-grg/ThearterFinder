@@ -12,11 +12,42 @@ Theater tracker is a web based application. This system allows andministrator to
 ### Admin Functionalities ###
 -**Create:** Using this admin can add new theater by providing basic details including name, location, city, eircode, contact number, and email. Each theater is assigned with a unique id while creation.
 
+  - Admin can interact with the form data there he/she can add theater details.
+  - When form is submitted the JavaScript handleAddForm() function is called.
+  - handleAddForm() is responsible for take the form data and make it ready for submission.
+  - Then it will make a POST request to the backend API endpoint to add add a new record.
+  - The backend server will handle the incoming POST request /addTheater endpoint.
+  - Then after processing the request and sends the response back to the UI.
+      
+
 -**Read:** It will help to get a diverse list of all theaters along with their details
+
+  - When the page is loaded the TheaterList() function got triggered
+  - It make a GET request take all data from backend.
+  - The backend process the GET request at the /theaters endpoint
+  - It queries the database and fetch all data then send them back to frontend
 
 -**Update:** Alter the theater's current details as needed.
 
+  - When admin clicks the edit button that associated with a record.
+  - The updateTheater() function is trigged, which pre-fills a form with corresponding data.
+  - After editing, the admin submit the form, that call PUT request to update the data.
+  - The backend recives the PUT request /updateTheater/:Theater_Id endpoint.
+  - Then the server updates the specfic record with the new data.
+
 -**Delete:** Theaters that are no longer in use then admin can remove it.
+
+  - If admin clicks the delete button associated with a specific record.
+  - The deleteTheater() function is called, which triggers DELETE request to remove data from the backend.
+  - The server process the DELETE request at /deleteTheater/:Theater_Id endpoint.
+  - Then the record removed from the database and then the server send a confirmation response.
+
+-**Search:** Admin can able to locate list of theaters in a particular location with the help of eircode
+
+  - If admin enter the eircode and click search
+  - The search() function is called, then which triggers GET request to fetch theater details based on the eircode.
+  - The server process the GET request at /search?EirCode=  endpoint.
+  - Then it will return the details of all theaters within that specific eircode.
 
 ## Technologies Used ##
 This system uses modern technologies to ensure the web application is smooth and effective. The main technolofies used in this project are:
@@ -34,6 +65,13 @@ This system uses modern technologies to ensure the web application is smooth and
 ### Database ###
 -**MySQL:** It is an open source relational database management system(RDBMS) that's used to store and manage data. 
 
+### Testing ###
+-**Jest:** It is a testing JavaScript framework, here its used for unit testing and integration testing.
+-**Supertest:** Its an HTTP assertion library, its used for testing Express routes.
+
+### Hosting ###
+-**AWS:** The website was hosted using AWS services. A MySQL database was created on AWS RDS and connected through SQL Workbench for data management. For application hosting, AWS App Runner was used to deploy the app. However, due to the cost associated with App Runner, the service was stopped and deleted to reduce expenses.
+
 ## Conclusion ##
 
 The Theater Management System makes data handling easier and quicker. The system simplifies data management procedures for the administrator by embedding all the major administrative features: create, read, update, and remove theatrical metadata. With an outstanding tech stack-HTML, CSS, JavaScript, MySQL, and Node.js, this application assures scalability, reliability, and ease for end-users.
@@ -43,12 +81,16 @@ This project, emphasizing real-life needs for data organization, user interactio
 The conclusion is that the Theater Management System is a good starting point for new improvements, such as adding some user-oriented functionality like theatre search and advanced filtering. It is a helpful tool within the context of theater management because it illustrates the prospect of continued evolution toward meeting the growing demands of consumers.
 
 ## References ##
--**CRUD REST API with Node.js, Express.js, and PostgreSQL - DEV Community: https://dev.to/justahmed99/crud-rest-api-with-nodejs-expressjs-and-postgresql-57b2[Accessed 09 November 2024]**
+
+-**CRUD REST API with Node.js, Express.js, and PostgreSQL - DEV Community: https://dev.to/justahmed99/crud-rest-api-with-nodejs-expressjs-and-postgresql-57b2 [Accessed 09 November 2024]**
 
 -**Testing NodeJs/Express API with Jest and Supertest - DEV Community: https://dev.to/nedsoft/testing-nodejs-express-api-with-jest-and-supertest-1km6 [Accessed 23 November 2024]**
 
 -**Troubleshooting · Jest: https://jestjs.io/docs/troubleshooting [Accessed 26 November 2024]**
 
+-**Deploying NodeJS APP on AWS EC2 Instance — Step by Step | by Rajani Ekunde | Medium: https://medium.com/@rajani103/deploying-nodejs-app-on-aws-ec2-instance-step-by-step-1b00f807cdce [Accessed 30 November 2024]**
+
+-**Launching your first EC2 Instance | by Rajani Ekunde | Medium: https://medium.com/@rajani103/launching-your-first-ec2-instance-a422862e09c2 [Accessed 30 November 2024]**
 
 
 
