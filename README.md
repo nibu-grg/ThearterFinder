@@ -10,10 +10,10 @@ Theater tracker is a web based application. This system allows andministrator to
 
 ## Key Features ##
 ### Admin Functionalities ###
-Markup : * Create: Using this admin can add new theater by providing basic details including name, location, city, eircode, contact number, and email. Each theater is assigned with a unique id while creation.
-         * Read: It will help to get a diverse list of all theaters along with their details
-         * Update: Alter the theater's current details as needed.
-         * Delete: Theaters that are no longer in use then admin can remove it.
+-** Create: ** Using this admin can add new theater by providing basic details including name, location, city, eircode, contact number, and email. Each theater is assigned with a unique id while creation.
+-** Read: ** It will help to get a diverse list of all theaters along with their details
+-** Update: ** Alter the theater's current details as needed.
+-** Delete: ** Theaters that are no longer in use then admin can remove it.
 
 
 
