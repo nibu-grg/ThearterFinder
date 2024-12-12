@@ -11,6 +11,10 @@ Theater tracker is a web based application. This system allows andministrator to
 ## Key Features ##
 ### Admin Functionalities ###
 -**Create:** Using this admin can add new theater by providing basic details including name, location, city, eircode, contact number, and email. Each theater is assigned with a unique id while creation.
+  -***Workflow***
+      -****Front End:**** -*****The admin can add theater data with the form.******
+                          -*****When the form is submitted, JavaScript handleAddForm() function is called.*****
+      
 
 -**Read:** It will help to get a diverse list of all theaters along with their details
 
@@ -43,7 +47,7 @@ This project, emphasizing real-life needs for data organization, user interactio
 The conclusion is that the Theater Management System is a good starting point for new improvements, such as adding some user-oriented functionality like theatre search and advanced filtering. It is a helpful tool within the context of theater management because it illustrates the prospect of continued evolution toward meeting the growing demands of consumers.
 
 ## References ##
--**CRUD REST API with Node.js, Express.js, and PostgreSQL - DEV Community: https://dev.to/justahmed99/crud-rest-api-with-nodejs-expressjs-and-postgresql-57b2[Accessed 09 November 2024]**
+-**CRUD REST API with Node.js, Express.js, and PostgreSQL - DEV Community: https://dev.to/justahmed99/crud-rest-api-with-nodejs-expressjs-and-postgresql-57b2 [Accessed 09 November 2024]**
 
 -**Testing NodeJs/Express API with Jest and Supertest - DEV Community: https://dev.to/nedsoft/testing-nodejs-express-api-with-jest-and-supertest-1km6 [Accessed 23 November 2024]**
 
