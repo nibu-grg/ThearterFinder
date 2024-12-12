@@ -11,17 +11,36 @@ Theater tracker is a web based application. This system allows andministrator to
 ## Key Features ##
 ### Admin Functionalities ###
 -**Create:** Using this admin can add new theater by providing basic details including name, location, city, eircode, contact number, and email. Each theater is assigned with a unique id while creation.
-  -***Workflow***
-      -****Front End:**** 
-      - The admin can add theater data with the form.
-      - When the form is submitted, JavaScript handleAddForm() function is called.
+
+  - Admin can interact with the form data there he/she can add theater details.
+  - When form is submitted the JavaScript handleAddForm() function is called.
+  - handleAddForm() is responsible for take the form data and make it ready for submission.
+  - Then it will make a POST request to the backend API endpoint to add add a new record.
+  - The backend server will handle the incoming POST request /addTheater endpoint.
+  - Then after processing the request and sends the response back to the UI.
       
 
 -**Read:** It will help to get a diverse list of all theaters along with their details
 
+  - When the page is loaded the TheaterList() function got triggered
+  - It make a GET request take all data from backend.
+  - The backend process the GET request at the /theaters endpoint
+  - It queries the database and fetch all data then send them back to frontend
+
 -**Update:** Alter the theater's current details as needed.
 
+  - When admin clicks the edit button that associated with a record.
+  - The updateTheater() function is trigged, which pre-fills a form with corresponding data.
+  - After editing, the admin submit the form, that call PUT request to update the data.
+  - The backend recives the PUT request /updateTheater/:Theater_Id endpoint.
+  - Then the server updates the specfic record with the new data.
+
 -**Delete:** Theaters that are no longer in use then admin can remove it.
+
+  - If admin clicks the delete button associated with a specific record.
+  - The deleteTheater() function is called, which triggers DELETE request to remove data from the backend.
+  - The server process the DELETE request at /deleteTheater/:Theater_Id endpoint.
+  - Then the record removed from the database and then the server send a confirmation response.
 
 ## Technologies Used ##
 This system uses modern technologies to ensure the web application is smooth and effective. The main technolofies used in this project are:
