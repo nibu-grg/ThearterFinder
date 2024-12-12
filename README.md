@@ -81,12 +81,16 @@ This project, emphasizing real-life needs for data organization, user interactio
 The conclusion is that the Theater Management System is a good starting point for new improvements, such as adding some user-oriented functionality like theatre search and advanced filtering. It is a helpful tool within the context of theater management because it illustrates the prospect of continued evolution toward meeting the growing demands of consumers.
 
 ## References ##
+
 -**CRUD REST API with Node.js, Express.js, and PostgreSQL - DEV Community: https://dev.to/justahmed99/crud-rest-api-with-nodejs-expressjs-and-postgresql-57b2 [Accessed 09 November 2024]**
 
 -**Testing NodeJs/Express API with Jest and Supertest - DEV Community: https://dev.to/nedsoft/testing-nodejs-express-api-with-jest-and-supertest-1km6 [Accessed 23 November 2024]**
 
 -**Troubleshooting · Jest: https://jestjs.io/docs/troubleshooting [Accessed 26 November 2024]**
 
+-**Deploying NodeJS APP on AWS EC2 Instance — Step by Step | by Rajani Ekunde | Medium: https://medium.com/@rajani103/deploying-nodejs-app-on-aws-ec2-instance-step-by-step-1b00f807cdce [Accessed 30 November 2024]**
+
+-**Launching your first EC2 Instance | by Rajani Ekunde | Medium: https://medium.com/@rajani103/launching-your-first-ec2-instance-a422862e09c2 [Accessed 30 November 2024]**
 
 
 
